@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-03T09:06:16.514Z</updated>
+  <updated>2018-03-04T07:30:40.300Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,48 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>create project-cli</title>
+    <link href="http://yoursite.com/2018/03/04/create-project-cli/"/>
+    <id>http://yoursite.com/2018/03/04/create-project-cli/</id>
+    <published>2018-03-04T07:24:05.000Z</published>
+    <updated>2018-03-04T07:30:40.300Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="自建脚手架"><a href="#自建脚手架" class="headerlink" title="自建脚手架"></a>自建脚手架</h1><p>最近在捣鼓vue，觉得vue-cli这个脚手架不错，想来就自己也写一个吧，正好平时工作或者自己整个啥项目，也不用苦哈哈的敲命令了，毕竟程序员的捣鼓事情的最初想法就是因为懒嘛，废话不说，说干就干</p><p>打开百度，搜索了一下脚手架搭建，文章还真不少，看来跟我一样懒得同志不在少数，总结了几篇文章，得出个基本思路。</p><ol><li>基于本地文件生成模板，通过复制本地现有的模板自动搭建新项目</li><li>基于git仓库下载生成模板，通过下载git仓库中已有模板，生成本地模板</li></ol><p>基于想开发的脚手架本身就是为了方便工作的，所以选择利用git仓库来生成模板这一模式来开发</p><h3 id="使用的npm包"><a href="#使用的npm包" class="headerlink" title="使用的npm包"></a>使用的npm包</h3><ol><li>commander: Tj大神开发的命令行工具，可以简化命令行操作，可开发类似help，init，add等命令参数的调用</li><li>chalk: 命令行输出美化工具，也就是把文字美化一下</li><li>inquirer: 交互式命令行工具，yoeman就是用他开发的，可以实现模板筛选，</li><li>metalsmith: 静态模板生成器，不过这个版本没用到，看vue里面有用</li><li>download-git-repo: git仓库下载包，很方便将仓库项目下载到本地</li></ol><h3 id="项目目录"><a href="#项目目录" class="headerlink" title="项目目录"></a>项目目录</h3><p><img src="construction.png" alt=""></p><ol><li>bin: 程序入口文件夹</li><li>lib : 程序主逻辑文件夹</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;自建脚手架&quot;&gt;&lt;a href=&quot;#自建脚手架&quot; class=&quot;headerlink&quot; title=&quot;自建脚手架&quot;&gt;&lt;/a&gt;自建脚手架&lt;/h1&gt;&lt;p&gt;最近在捣鼓vue，觉得vue-cli这个脚手架不错，想来就自己也写一个吧，正好平时工作或者自己整个啥项目，也不用苦哈
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>新博客开张</title>
+    <link href="http://yoursite.com/2018/03/04/%E6%96%B0%E5%8D%9A%E5%AE%A2%E5%BC%80%E5%BC%A0/"/>
+    <id>http://yoursite.com/2018/03/04/新博客开张/</id>
+    <published>2018-03-04T06:41:27.000Z</published>
+    <updated>2018-03-04T06:52:18.845Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="新博客开张啦"><a href="#新博客开张啦" class="headerlink" title="新博客开张啦"></a>新博客开张啦</h1><p>自从服务器中间一度停止续费，我的博客也正式下架了，前段时间一直想把之前做个博客系统新写一版，这段时间也算是完成了一点，前端当然是用的目前最火热的三大框架之Vue，后端也是我的最爱大python，不过目前博客还在搭建中，心想着怎么也得弄个博客，没事写写文章啥的，于是就有了这个博客的诞生</p><p>ps:本人技术渣，颜值低，博客只为巩固知识，记录新奇想法，如果您一不小心搜到此博客，发现博客太水，对不起，关我屁事？:)</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;新博客开张啦&quot;&gt;&lt;a href=&quot;#新博客开张啦&quot; class=&quot;headerlink&quot; title=&quot;新博客开张啦&quot;&gt;&lt;/a&gt;新博客开张啦&lt;/h1&gt;&lt;p&gt;自从服务器中间一度停止续费，我的博客也正式下架了，前段时间一直想把之前做个博客系统新写一版，这段时间也算是
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
