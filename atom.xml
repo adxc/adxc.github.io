@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-04T07:30:40.300Z</updated>
+  <updated>2018-03-07T14:45:37.697Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>js实现拖拽</title>
+    <link href="http://yoursite.com/2018/03/07/js%E5%AE%9E%E7%8E%B0%E6%8B%96%E6%8B%BD/"/>
+    <id>http://yoursite.com/2018/03/07/js实现拖拽/</id>
+    <published>2018-03-07T14:13:28.000Z</published>
+    <updated>2018-03-07T14:45:37.697Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="js实现元素拖拽效果"><a href="#js实现元素拖拽效果" class="headerlink" title="js实现元素拖拽效果"></a>js实现元素拖拽效果</h1><p>项目中写过不少鼠标拖拽事件，最近面试的时候要求实现一道元素拖拽效果，正所谓talk is cheap show me code，那就在写一个记录一下拖拽的实现及思路吧。</p><h3 id="拖拽思路"><a href="#拖拽思路" class="headerlink" title="拖拽思路"></a>拖拽思路</h3><ol><li>拖拽目标必须为已定位元素</li><li>获取拖拽目标当前坐标点</li><li>监听鼠标mousedown事件,读取当前鼠标坐标</li><li>监听鼠标mouseover事件，读取当前鼠标滑动坐标</li><li>测算鼠标移动距离，设置拖拽元素移动距离</li><li>监听鼠标mouseup事件，暂停响应鼠标移动事件</li></ol><h3 id="拖拽实现"><a href="#拖拽实现" class="headerlink" title="拖拽实现"></a>拖拽实现</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"drag"</span> <span class="attr">style</span>=<span class="string">"position:relative;width:100px;height:100px"</span>&gt;</span></span><br><span class="line">       拖拽目标</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义绑定事件函数</span></span><br><span class="line"><span class="keyword">var</span> bindEvent = <span class="function"><span class="keyword">function</span>(<span class="params">target,event,fn</span>)</span>&#123;</span><br><span class="line">    target.addEventListener(event,fn)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//获取监听元素</span></span><br><span class="line"><span class="keyword">var</span> drag_target = <span class="built_in">document</span>.getElementById(<span class="string">"drag"</span>)</span><br><span class="line"><span class="comment">//定义拖动所需变量</span></span><br><span class="line"><span class="keyword">var</span> offset_X,</span><br><span class="line">    offset_Y,</span><br><span class="line">    isMove = <span class="literal">false</span></span><br><span class="line"><span class="comment">//绑定所需监听事件</span></span><br><span class="line"><span class="comment">//鼠标按下事件需要绑定在当前拖动元素上，监听鼠标滑动及抬起事件需绑定在document上</span></span><br><span class="line">bindEvent(drag_target,<span class="string">"mousedown"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> target_X = e.target.offsetLeft</span><br><span class="line">  <span class="keyword">var</span> target_Y = e.target.offsetTop</span><br><span class="line">  offset_X = e.pageX - target_X;</span><br><span class="line">  offset_Y = e.pageY - target_Y;</span><br><span class="line">  isMove = <span class="literal">true</span></span><br><span class="line">&#125;)</span><br><span class="line">bindEvent(<span class="built_in">document</span>,<span class="string">"mouseover"</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(isMove)&#123;</span><br><span class="line">        drag_target.style.top = e.pageY - offsetX + <span class="string">"px"</span>;</span><br><span class="line">        drag_target.style.left = e.pageX - offsetY + <span class="string">"px"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">bindEvent(<span class="built_in">document</span>,<span class="string">'mouseup'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        isMove = <span class="literal">false</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure><p>通过对元素事件绑定，获取当前元素偏移量，获取当前鼠标在元素内的坐标点，计算出当前鼠标到元素之间的距离，监听滑动事件，计算出当前元素需要偏移的距离，设置元素偏移量。当鼠标抬起，改变默认变量，取消对元素坐标的改变。由于IE浏览器没有pageX属性。需要获取鼠标当前坐标变为</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = e.clientX + <span class="built_in">document</span>.body.scrollLeft - <span class="built_in">document</span>.body.clientLeft;</span><br><span class="line">    y = e.clientY + <span class="built_in">document</span>.body.scrollTop - <span class="built_in">document</span>.body.clientTop;</span><br></pre></td></tr></table></figure><p>到此为止，简单的拖拽事件完成，新的H5实现了拖拽的API，可以更好的监听元素拖拽事件，本代码只是简单的实现了JavaScript拖拽元素事件，并未考虑浏览器兼容问题及性能优化，具体效果还需要多加修改</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;js实现元素拖拽效果&quot;&gt;&lt;a href=&quot;#js实现元素拖拽效果&quot; class=&quot;headerlink&quot; title=&quot;js实现元素拖拽效果&quot;&gt;&lt;/a&gt;js实现元素拖拽效果&lt;/h1&gt;&lt;p&gt;项目中写过不少鼠标拖拽事件，最近面试的时候要求实现一道元素拖拽效果，正所谓t
+      
+    
+    </summary>
+    
+    
+      <category term="js" scheme="http://yoursite.com/tags/js/"/>
+    
+  </entry>
   
   <entry>
     <title>create project-cli</title>
