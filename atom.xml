@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-07T14:45:37.697Z</updated>
+  <updated>2018-03-11T10:46:05.421Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一道有意思的js面试题</title>
+    <link href="http://yoursite.com/2018/03/11/%E4%B8%80%E9%81%93%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84js%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    <id>http://yoursite.com/2018/03/11/一道有意思的js面试题/</id>
+    <published>2018-03-11T10:45:34.000Z</published>
+    <updated>2018-03-11T10:46:05.421Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一道有意思的js面试题"><a href="#一道有意思的js面试题" class="headerlink" title="一道有意思的js面试题"></a>一道有意思的js面试题</h1><p>这几天忙着面试，遇到了一个有意思的面试题，记录一下，就当复习自己的js基础了</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    getName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; alert (<span class="number">1</span>); &#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line">Foo.getName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; alert (<span class="number">2</span>);&#125;;</span><br><span class="line">Foo.prototype.getName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; alert (<span class="number">3</span>);&#125;;</span><br><span class="line"><span class="keyword">var</span> getName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; alert (<span class="number">4</span>);&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>) </span>&#123; alert (<span class="number">5</span>);&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//请写出以下输出结果：</span></span><br><span class="line">Foo.getName();</span><br><span class="line">getName();</span><br><span class="line">Foo().getName();</span><br><span class="line">getName();</span><br><span class="line"><span class="keyword">new</span> Foo.getName();</span><br><span class="line"><span class="keyword">new</span> Foo().getName();</span><br><span class="line"><span class="keyword">new</span> <span class="keyword">new</span> Foo().getName();</span><br><span class="line"></span><br><span class="line"><span class="comment">//答案：</span></span><br><span class="line">Foo.getName();<span class="comment">//2</span></span><br><span class="line">getName();<span class="comment">//4</span></span><br><span class="line">Foo().getName();<span class="comment">//1</span></span><br><span class="line">getName();<span class="comment">//1</span></span><br><span class="line"><span class="keyword">new</span> Foo.getName();<span class="comment">//2</span></span><br><span class="line"><span class="keyword">new</span> Foo().getName();<span class="comment">//3</span></span><br><span class="line"><span class="keyword">new</span> <span class="keyword">new</span> Foo().getName();<span class="comment">//3</span></span><br></pre></td></tr></table></figure><h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><ol><li>首先定义了一个叫Foo的函数，之后为Foo创建了一个叫getName的<strong>静态属性</strong>存储了一个匿名函数，之后为Foo的<strong>原型对象</strong>新创建了一个叫getName的匿名函数。之后又通过<strong>函数变量表达式</strong>创建了一个getName的函数，最后再<strong>声明</strong>一个叫getName函数。第一问的 Foo.getName 自然是访问Foo函数上存储的静态属性，输出为2</li><li>直接调用 getName 函数。既然是直接调用那么就是访问当前上文作用域内的叫getName的函数，所以跟1 2 3都没什么关系。首先函数声明式以及变量声明会提升到顶部，当程序运行到赋值语句时，将覆盖getName函数声明，最终输出为4</li><li>运行Foo(),将全局变量getName重新赋值，返回this对象，由于当前调用上下文在全局。所以优先在全局查找getName属性，由于在函数内部修改了全局变量，所以最终输出为1</li><li>同理。由于已经改写getName，所以输出为1</li><li>.运算符优先于new运算符，所以先执行FOO.getName(),然后将该函数当成构造函数去实例化，所以最终输出为2</li><li>将FOO作为构造函数实例化，再去调用函数，优先查找函数内部属性，再向上去原型中查找，所以执行prototype中的方法，最终输出3</li><li>相当于5，6结合，将实例化对象作为构造函数创建实例对象，将在原型中层层寻找方法。最终输出3</li></ol><p>另外在网上找到关于5.6.7问题的详细解析：</p><blockquote><p>new Foo.getName(); 和 new Foo().getName(); 的区别在于</p><p>new Foo 结合属于 new 无参数列表的情况（17级）</p><p>new Foo() 结合属于 new 有参数列表的情况（18级）</p><p>成员访问运算符（.）优先级为 18 级，和 new Foo() 同级</p><p>对于同级运算符，按照从左到右的顺序依次计算</p><p>所以先执行 new Foo() 返回一个 Foo 的对象 ，对 Foo 对象调用 getName 时查找引用链，得到 Foo.prototype.getName</p><p>new Foo 结合被判定为无参数列表的new，优先级低于成员访问，所以先执行成员访问得到 Foo 的属性 getName， 然后 Foo.getName 和 new 结合，执行带参数列表的 new 运算</p><p>需要注意的是带参数列表的 new …(…) 看起来像是 new 后面跟了一个函数调用，但在判断运算符优先级时 new 运算是一个整体，不能把它分开</p><p>javascript 中设定带参数列表 new 的优先级高于函数调用，那么在满足带参数列表的 new 运算符时，就不存在函数调用了虽然带参数列表的 new 运算也会执行函数调用，但是在判断运算时不把 new 和 …(…) 分开。</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一道有意思的js面试题&quot;&gt;&lt;a href=&quot;#一道有意思的js面试题&quot; class=&quot;headerlink&quot; title=&quot;一道有意思的js面试题&quot;&gt;&lt;/a&gt;一道有意思的js面试题&lt;/h1&gt;&lt;p&gt;这几天忙着面试，遇到了一个有意思的面试题，记录一下，就当复习自己的j
+      
+    
+    </summary>
+    
+    
+      <category term="js" scheme="http://yoursite.com/tags/js/"/>
+    
+  </entry>
   
   <entry>
     <title>js实现拖拽</title>
